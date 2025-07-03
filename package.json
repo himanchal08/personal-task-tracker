@@ -1,21 +1,22 @@
 {
   "name": "personal-task-tracker",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "homepage": "https://yourusername.github.io/personal-task-tracker",
-  "description": "A personal task tracker application built with React",
+  "homepage": "https://himanchal08.vercel.app",
+  "description": "A modern, responsive personal task tracker built with React.",
   "keywords": [
     "react",
     "task-tracker",
-    "todo",
+    "todo-app",
     "productivity",
-    "javascript"
+    "react-app",
+    "localStorage"
   ],
-  "author": "Your Name <your.email@example.com>",
+  "author": "Himanchal Khattri <himanchalkhattria@gmail.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/personal-task-tracker.git"
+    "url": "https://github.com/himanchal08/personal-task-tracker.git"
   },
   "dependencies": {
     "react": "^18.2.0",
