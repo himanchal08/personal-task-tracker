@@ -71,11 +71,11 @@ const TaskForm = ({ onAddTask, editingTask, onUpdateTask, onCancelEdit }) => {
     }
   };
 
-  const formatDateForInput = (dateString) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    return date.toISOString().slice(0, 16);
-  };
+  // const formatDateForInput = (dateString) => {
+  //   if (!dateString) return "";
+  //   const date = new Date(dateString);
+  //   return date.toISOString().slice(0, 16);
+  // };
 
   return (
     <div className="task-form-container">
