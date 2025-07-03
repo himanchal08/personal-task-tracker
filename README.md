@@ -50,14 +50,13 @@ A simple, modern personal task management application built with React. Easily a
 
 ## Live Demo
 
-[Live Demo Link](https://personal-task-tracker-azure.vercel.app/) <!-- Replace # with your deployed app URL -->
-
+[Live Demo Link](https://personal-task-tracker-azure.vercel.app/) 
 ## Screenshots
 
-<!-- Replace with your own screenshots -->
 
-![Login Screen](\login-screen.png)
-![Task Dashboard]()
+![Login Screen](https://github.com/user-attachments/assets/b1642c4b-2919-43c7-9b1f-ed8cff8e9e2c)
+![Task Dashboard](https://github.com/user-attachments/assets/3e544e97-8b18-4067-8186-95c6a5a89e2e)
+
 
 ## Project Structure
 
