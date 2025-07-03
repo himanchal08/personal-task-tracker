@@ -4,7 +4,7 @@
 
 A simple, modern personal task management application built with React. Easily add, edit, complete, and organize your tasks with features like search, filtering, priorities, due dates, dark mode, and more. All data is stored locally in your browser for privacy and persistence.
 
-## 🚀 Features
+## Features
 
 - Simple login (username only, stored in localStorage)
 - Add, edit, and delete tasks

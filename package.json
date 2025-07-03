@@ -2,7 +2,7 @@
   "name": "personal-task-tracker",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://himanchal08.vercel.app",
+  "homepage": "https://personal-task-tracker-azure.vercel.app/",
   "description": "A modern, responsive personal task tracker built with React.",
   "keywords": [
     "react",
