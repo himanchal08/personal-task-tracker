@@ -24,11 +24,11 @@ A simple, modern personal task management application built with React. Easily a
 - Smooth animations and transitions
 - Export and clear all tasks from settings
 
-## 🛠 Setup Instructions
+## Setup Instructions
 
 1. **Clone the repository:**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/himanchal08/personal-task-tracker.git
    cd personal-task-tracker
    ```
 2. **Install dependencies:**
@@ -42,24 +42,24 @@ A simple, modern personal task management application built with React. Easily a
 4. **Open in your browser:**
    [http://localhost:3000](http://localhost:3000)
 
-## 🧰 Technologies Used
+## Technologies Used
 
 - React.js (functional components & hooks)
 - CSS (with variables for theming & responsive design)
 - [react-icons](https://react-icons.github.io/react-icons/) (for UI icons)
 
-## 🔗 Live Demo
+## Live Demo
 
 [Live Demo Link](https://personal-task-tracker-azure.vercel.app/) <!-- Replace # with your deployed app URL -->
 
-## 🖼 Screenshots
+## Screenshots
 
 <!-- Replace with your own screenshots -->
 
-![Login Screen]()
+![Login Screen](\login-screen.png)
 ![Task Dashboard]()
 
-## 📦 Project Structure
+## Project Structure
 
 ```
 personal-task-tracker/
@@ -83,7 +83,7 @@ personal-task-tracker/
 └── package.json
 ```
 
-## 🧪 Sample Data for Testing
+## Sample Data for Testing
 
 ```js
 const sampleTasks = [
