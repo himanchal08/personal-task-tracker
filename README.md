@@ -1,6 +1,6 @@
 # Personal Task Tracker
 
-## 📖 Description
+## Description
 
 A simple, modern personal task management application built with React. Easily add, edit, complete, and organize your tasks with features like search, filtering, priorities, due dates, dark mode, and more. All data is stored locally in your browser for privacy and persistence.
 
@@ -50,14 +50,14 @@ A simple, modern personal task management application built with React. Easily a
 
 ## 🔗 Live Demo
 
-[Live Demo Link](#) <!-- Replace # with your deployed app URL -->
+[Live Demo Link](https://personal-task-tracker-azure.vercel.app/) <!-- Replace # with your deployed app URL -->
 
 ## 🖼 Screenshots
 
 <!-- Replace with your own screenshots -->
 
-![Login Screen](public/screenshot-login.png)
-![Task Dashboard](public/screenshot-dashboard.png)
+![Login Screen]()
+![Task Dashboard]()
 
 ## 📦 Project Structure
 
@@ -88,31 +88,37 @@ personal-task-tracker/
 ```js
 const sampleTasks = [
   {
-    id: 1,
-    title: "Complete React assignment",
-    description: "Build a task tracker application",
-    completed: false,
-    createdAt: "2024-01-15T10:00:00Z",
+    "id": 1751536007756.7717,
+    "title": "Grocery",
+    "description": "Had to but milk",
+    "priority": "high",
+    "dueDate": "2025-07-04T09:46:00.000Z",
+    "tags": [],
+    "completed": true,
+    "createdAt": "2025-07-03T09:46:47.756Z"
   },
   {
-    id: 2,
-    title: "Review JavaScript concepts",
-    description: "Go through ES6+ features",
-    completed: true,
-    createdAt: "2024-01-14T15:30:00Z",
-  },
+    "id": 1751535982977.0015,
+    "title": "Bathing",
+    "description": "Have to take a shower",
+    "priority": "low",
+    "dueDate": "2025-07-03T11:46:00.000Z",
+    "tags": [],
+    "completed": true,
+    "createdAt": "2025-07-03T09:46:22.977Z"
+  }
 ];
 ```
 
-## 📝 Notes
+## Notes
 
 - All data is stored locally in your browser for privacy. No backend or real authentication is used.
 - For any issues or suggestions, feel free to open an issue or pull request.
 
-## 🏆 Bonus Features Implemented
+## Bonus Features Implemented
 
 - Search, priorities, due dates, tags, dark mode, color themes, export/clear tasks, and smooth UI animations.
 
-## 📄 License
+## License
 
 MIT
