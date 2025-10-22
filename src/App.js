@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react";
 import Login from "./components/Login";
+import Register from "./components/Register";
 import TaskForm from "./components/TaskForm";
 import TaskList from "./components/TaskList";
 import TaskFilter from "./components/TaskFilter";
+import { taskAPI } from "./services/api";
 import {
   getStoredData,
   setStoredData,
@@ -31,17 +33,22 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [showSettings, setShowSettings] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  // Check for existing token and load user
   useEffect(() => {
     const storedUser = getStoredData("username");
-    const storedTasks = getStoredData("tasks");
+    const storedToken = localStorage.getItem("token");
     const storedDarkMode = getStoredData("darkMode");
-    if (storedUser) {
+
+    if (storedUser && storedToken) {
       setUser(storedUser);
+      loadTasks();
+    } else {
+      setLoading(false);
     }
-    if (storedTasks && storedTasks.length > 0) {
-      setTasks(storedTasks);
-    }
+
     if (storedDarkMode !== null) {
       setIsDarkMode(storedDarkMode);
     }
@@ -73,20 +80,22 @@ function App() {
     document.body.className = isDarkMode ? "dark-mode" : "light-mode";
   }, [isDarkMode]);
 
-  // Save tasks to localStorage whenever tasks change
-  useEffect(() => {
-    if (user && tasks.length >= 0) {
-      setStoredData("tasks", tasks);
+  // Load tasks from backend
+  const loadTasks = async () => {
+    try {
+      const tasksData = await taskAPI.getTasks();
+      setTasks(tasksData);
+    } catch (error) {
+      console.error("Error loading tasks:", error);
+    } finally {
+      setLoading(false);
     }
-  }, [tasks, user]);
+  };
 
-  const handleLogin = (username) => {
+  const handleLogin = (username, token) => {
     setUser(username);
-    const storedTasks = getStoredData("tasks");
-    if (!storedTasks || storedTasks.length === 0) {
-      setTasks([]);
-      setStoredData("tasks", []);
-    }
+    setShowRegister(false);
+    loadTasks();
   };
 
   const handleLogout = () => {
@@ -94,45 +103,94 @@ function App() {
     setTasks([]);
     setEditingTask(null);
     removeStoredData("username");
-    removeStoredData("tasks");
+    localStorage.removeItem("token");
   };
 
-  const generateId = () => {
-    return Date.now() + Math.random();
+  const handleAddTask = async (taskData) => {
+    try {
+      // Map frontend task data to backend format
+      const backendTaskData = {
+        title: taskData.title,
+        description: taskData.description || "",
+        status: taskData.completed ? "completed" : "pending",
+      };
+
+      const newTask = await taskAPI.createTask(backendTaskData);
+
+      // Convert backend task to frontend format
+      const frontendTask = {
+        ...newTask,
+        completed: newTask.status === "completed",
+        priority: taskData.priority || "medium",
+        dueDate: taskData.dueDate || null,
+        tags: taskData.tags || [],
+      };
+
+      setTasks((prevTasks) => [frontendTask, ...prevTasks]);
+    } catch (error) {
+      console.error("Error adding task:", error);
+      alert("Failed to add task. Please try again.");
+    }
   };
 
-  const handleAddTask = (taskData) => {
-    const newTask = {
-      id: generateId(),
-      ...taskData,
-      completed: false,
-      createdAt: new Date().toISOString(),
-      tags: taskData.tags || [],
-    };
-    setTasks((prevTasks) => [...prevTasks, newTask]);
-  };
+  const handleUpdateTask = async (taskId, taskData) => {
+    try {
+      // Map frontend task data to backend format
+      const backendTaskData = {
+        title: taskData.title,
+        description: taskData.description || "",
+        status: taskData.completed ? "completed" : "pending",
+      };
 
-  const handleUpdateTask = (taskId, taskData) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === taskId ? { ...task, ...taskData } : task
-      )
-    );
-    setEditingTask(null);
-  };
+      await taskAPI.updateTask(taskId, backendTaskData);
 
-  const handleToggleComplete = (taskId) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === taskId ? { ...task, completed: !task.completed } : task
-      )
-    );
-  };
-
-  const handleDeleteTask = (taskId) => {
-    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
-    if (editingTask && editingTask.id === taskId) {
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === taskId ? { ...task, ...taskData } : task
+        )
+      );
       setEditingTask(null);
+    } catch (error) {
+      console.error("Error updating task:", error);
+      alert("Failed to update task. Please try again.");
+    }
+  };
+
+  const handleToggleComplete = async (taskId) => {
+    const task = tasks.find((t) => t.id === taskId);
+    if (!task) return;
+
+    try {
+      const newStatus = !task.completed;
+      const backendTaskData = {
+        title: task.title,
+        description: task.description || "",
+        status: newStatus ? "completed" : "pending",
+      };
+
+      await taskAPI.updateTask(taskId, backendTaskData);
+
+      setTasks((prevTasks) =>
+        prevTasks.map((t) =>
+          t.id === taskId ? { ...t, completed: newStatus } : t
+        )
+      );
+    } catch (error) {
+      console.error("Error toggling task:", error);
+      alert("Failed to update task. Please try again.");
+    }
+  };
+
+  const handleDeleteTask = async (taskId) => {
+    try {
+      await taskAPI.deleteTask(taskId);
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+      if (editingTask && editingTask.id === taskId) {
+        setEditingTask(null);
+      }
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      alert("Failed to delete task. Please try again.");
     }
   };
 
@@ -218,8 +276,37 @@ function App() {
     setStoredData("darkMode", newDarkMode);
   };
 
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          fontSize: "1.2rem",
+        }}
+      >
+        Loading...
+      </div>
+    );
+  }
+
   if (!user) {
-    return <Login onLogin={handleLogin} />;
+    if (showRegister) {
+      return (
+        <Register
+          onRegisterSuccess={() => setShowRegister(false)}
+          onSwitchToLogin={() => setShowRegister(false)}
+        />
+      );
+    }
+    return (
+      <Login
+        onLogin={handleLogin}
+        onSwitchToRegister={() => setShowRegister(true)}
+      />
+    );
   }
 
   const filteredTasks = getFilteredTasks();
