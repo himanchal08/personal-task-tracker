@@ -375,6 +375,9 @@ Response: 200 OK
 
 [Live Demo Link](https://personal-task-tracker-azure.vercel.app/)
 
+> **⚠️ Note about Backend Performance:**  
+> The backend is hosted on Render.com's free tier, which spins down after 15 minutes of inactivity. The **first request after inactivity may take 30-60 seconds** to wake up the server (cold start). Subsequent requests will be fast and responsive. This is normal behavior for free-tier hosting and doesn't affect the application's functionality.
+
 ## 🔒 Security Features
 
 - Password hashing with bcryptjs (10 salt rounds)
